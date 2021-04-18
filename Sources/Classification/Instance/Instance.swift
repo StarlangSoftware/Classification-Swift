@@ -154,6 +154,20 @@ public class Instance {
     }
     
     /**
+     * The getSubSetOfFeatures method takes a {@link FeatureSubSet} as an input. First it creates a result {@link Instance}
+     * with the class label, and adds the attributes of the given featureSubSet to it.
+     - Parameters:
+        - featureSubSet: {@link FeatureSubSet} an {@link ArrayList} of indices.
+     - Returns: result Instance.
+     */
+    public func getSubSetOfFeatures(featureSubSet: FeatureSubSet) -> Instance{
+        let result : Instance = Instance(classLabel: classLabel)
+        for i in 0..<featureSubSet.size() {
+            result.addAttribute(attribute: attributes[featureSubSet.get(index: i)])
+        }
+        return result
+    }
+    /**
      * The toVector method returns a {@link Vector} of continuous attributes and discrete indexed attributes.
      *
         - Returns: {@link Vector} of continuous attributes and discrete indexed attributes.

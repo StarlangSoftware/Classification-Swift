@@ -101,4 +101,18 @@ public class DataDefinition {
         attributeTypes.removeAll()
     }
     
+    /**
+     * Generates new subset of attribute types by using given feature subset.
+     - Parameters:
+        - featureSubSet: {@link FeatureSubSet} input.
+     - Returns: DataDefinition with new subset of attribute types.
+     */
+    public func getSubSetOfFeatures(featureSubSet: FeatureSubSet) -> DataDefinition{
+        var newAttributeTypes : [AttributeType] = []
+        for i in 0..<featureSubSet.size() {
+            newAttributeTypes.append(attributeTypes[featureSubSet.get(index: i)])
+        }
+        return DataDefinition(attributeTypes: newAttributeTypes)
+    }
+    
 }

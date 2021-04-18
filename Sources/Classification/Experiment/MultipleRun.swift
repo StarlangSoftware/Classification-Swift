@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MultipleRun {
+public protocol MultipleRun {
     
     func execute(experiment: Experiment) -> ExperimentPerformance
 }

@@ -227,4 +227,18 @@ public class DataSet{
     public func getDataDefinition() -> DataDefinition{
         return definition!
     }
+    
+    /**
+     * Return a subset generated via the given {@link FeatureSubSet}.
+     - Parameters:
+        - featureSubSet: {@link FeatureSubSet} input.
+     - Returns: Subset generated via the given {@link FeatureSubSet}.
+     */
+    public func getSubSetOfFeatures(featureSubSet : FeatureSubSet) -> DataSet{
+        let result : DataSet = DataSet(definition: definition!.getSubSetOfFeatures(featureSubSet: featureSubSet))
+        for i in 0..<instances.size() {
+            result.addInstance(current: instances.get(index: i).getSubSetOfFeatures(featureSubSet: featureSubSet))
+        }
+        return result
+    }
 }

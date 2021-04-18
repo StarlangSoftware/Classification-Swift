@@ -49,4 +49,14 @@ public class Experiment{
     public func getDataSet() -> DataSet{
         return dataSet
     }
+    
+    /**
+     * Construct and returns a feature selection experiment.
+     - Parameters:
+        - featureSubSet: Feature subset used in the feature selection experiment
+     - Returns: Experiment constructed
+     */
+    public func featureSelectedExperiment(featureSubSet: FeatureSubSet) -> Experiment{
+        return Experiment(classifier: classifier, parameter: parameter, dataSet: dataSet.getSubSetOfFeatures(featureSubSet: featureSubSet))
+    }
 }
