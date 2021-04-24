@@ -71,4 +71,9 @@ public class KnnModel : Model{
         }
         return predictedClass
     }
+    
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        let neighbors = nearestNeighbors(instance: instance)
+        return neighbors.classDistribution().getProbabilityDistribution()
+    }
 }

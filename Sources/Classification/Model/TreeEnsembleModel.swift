@@ -28,4 +28,12 @@ public class TreeEnsembleModel : Model {
         }
         return distribution.getMaxItem()
     }
+    
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        let distribution = DiscreteDistribution()
+        for tree in forest {
+            distribution.addItem(item: tree.predict(instance: instance))
+        }
+        return distribution.getProbabilityDistribution()
+    }
 }

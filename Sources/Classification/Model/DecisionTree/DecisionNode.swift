@@ -218,4 +218,18 @@ public class DecisionNode {
             }
         }
     }
+
+    public func predictProbabilityDistribution(instance: Instance) -> [String : Double]{
+        if leaf {
+            return (data?.classDistribution().getProbabilityDistribution())!
+        } else {
+            for node in children! {
+                if node.condition!.satisfy(instance: instance) {
+                    return node.predictProbabilityDistribution(instance: instance)
+                }
+            }
+            return (data?.classDistribution().getProbabilityDistribution())!
+        }
+    }
+
 }

@@ -163,4 +163,12 @@ public class NeuralNetworkModel : ValidatedModel{
             return classLabels[y.maxIndex()]
         }
     }
+    
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        var result : [String : Double] = [:]
+        for i in 0..<classLabels.count{
+            result[classLabels[i]] = y.getValue(index: i)
+        }
+        return result
+    }
 }

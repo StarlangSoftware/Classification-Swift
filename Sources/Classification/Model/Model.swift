@@ -20,6 +20,10 @@ public class Model{
         return ""
     }
     
+    public func predictProbability(instance: Instance) -> [String: Double] {
+        return [:]
+    }
+    
     public static func getMaximum(classLabels: [String]) -> String{
         let frequencies : CounterHashMap<String> = CounterHashMap()
         for label in classLabels{

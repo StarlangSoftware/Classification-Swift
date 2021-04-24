@@ -40,4 +40,12 @@ public class RandomModel : Model{
             return classLabels[index]
         }
     }
+    
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        var result : [String : Double] = [:]
+        for classLabel in classLabels{
+            result[classLabel] = 1.0 / Double(classLabels.count)
+        }
+        return result
+    }
 }

@@ -34,7 +34,11 @@ public class DecisionTree : ValidatedModel{
         }
         return predictedClass!
     }
-    
+
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        return root.predictProbabilityDistribution(instance: instance)
+    }
+
     /**
      * The prune method takes a {@link DecisionNode} and an {@link InstanceList} as inputs. It checks the classification performance
      * of given InstanceList before pruning, i.e making a node leaf, and after pruning. If the after performance is better than the

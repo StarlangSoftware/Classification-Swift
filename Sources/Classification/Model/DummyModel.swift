@@ -35,4 +35,8 @@ public class DummyModel : Model{
             return distribution.getMaxItem()
         }
     }
+    
+    public override func predictProbability(instance: Instance) -> [String : Double] {
+        return distribution.getProbabilityDistribution()
+    }
 }
