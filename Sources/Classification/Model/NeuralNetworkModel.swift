@@ -165,6 +165,8 @@ public class NeuralNetworkModel : ValidatedModel{
     }
     
     public override func predictProbability(instance: Instance) -> [String : Double] {
+        createInputVector(instance: instance)
+        calculateOutput()
         var result : [String : Double] = [:]
         for i in 0..<classLabels.count{
             result[classLabels[i]] = y.getValue(index: i)
