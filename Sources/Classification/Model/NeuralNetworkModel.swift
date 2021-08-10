@@ -80,9 +80,16 @@ public class NeuralNetworkModel : ValidatedModel{
         - weights: Matrix is multiplied with input Vector.
      - Returns: Result of sigmoid function.
      */
-    public func calculateHidden(input: Vector, weights: Matrix) -> Vector{
+    public func calculateHidden(input: Vector, weights: Matrix, activationFunction: ActivationFunction) -> Vector{
         let z = weights.multiplyWithVectorFromRight(v: input)
-        z.sigmoid()
+        switch activationFunction {
+            case .SIGMOID:
+                z.sigmoid()
+            case .TANH:
+                z.tanh()
+            case .RELU:
+                z.relu()
+        }
         return z
     }
     
@@ -105,8 +112,8 @@ public class NeuralNetworkModel : ValidatedModel{
         - W: Matrix to multiply with x.
         - V: Matrix to multiply.
      */
-    public func calculateForwardSingleHiddenLayer(W: Matrix, V: Matrix){
-        let hidden = calculateHidden(input: x, weights: W)
+    public func calculateForwardSingleHiddenLayer(W: Matrix, V: Matrix, activationFunction: ActivationFunction){
+        let hidden = calculateHidden(input: x, weights: W, activationFunction: activationFunction)
         let hiddenBiased = hidden.biased()
         y = V.multiplyWithVectorFromRight(v: hiddenBiased)
     }

@@ -10,6 +10,7 @@ import Foundation
 public class DeepNetworkParameter : LinearPerceptronParameter{
     
     private var hiddenLayers : [Int]
+    private var activationFunction : ActivationFunction
     
     /**
      * Parameters of the multi layer perceptron algorithm.
@@ -20,9 +21,11 @@ public class DeepNetworkParameter : LinearPerceptronParameter{
         - crossValidationRatio: Double value for cross validation ratio of the algorithm.
         - epoch:                Integer value for epoch number of the algorithm.
         - hiddenLayers:          An integer {@link ArrayList} for hidden layers of the algorithm.
+        - activationFunction: Activation function
      */
-    public init(seed: Int, learningRate: Double, etaDecrease: Double, crossValidationRatio: Double, epoch: Int, hiddenLayers: [Int]) {
+    public init(seed: Int, learningRate: Double, etaDecrease: Double, crossValidationRatio: Double, epoch: Int, hiddenLayers: [Int], activationFunction: ActivationFunction) {
         self.hiddenLayers = hiddenLayers
+        self.activationFunction = activationFunction
         super.init(seed: seed, learningRate: learningRate, etaDecrease: etaDecrease, crossValidationRatio: crossValidationRatio, epoch: epoch)
     }
     
@@ -44,6 +47,15 @@ public class DeepNetworkParameter : LinearPerceptronParameter{
      */
     public func getHiddenNodes(layerIndex: Int) -> Int{
         return hiddenLayers[layerIndex]
+    }
+
+    /**
+     * Accessor for the activationFunction.
+     *
+        - Returns: The activationFunction.
+     */
+    public func getActivationFunction() -> ActivationFunction{
+        return activationFunction
     }
 
 }

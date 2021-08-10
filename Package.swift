@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "DataStructure", url: "https://github.com/StarlangSoftware/DataStructure-Swift.git", .exact("1.0.4")),
-        .package(name: "Math", url: "https://github.com/StarlangSoftware/Math-Swift.git", .exact("1.0.8")),
+        .package(name: "Math", url: "https://github.com/StarlangSoftware/Math-Swift.git", .exact("1.0.9")),
         .package(name: "Sampling", url: "https://github.com/StarlangSoftware/Sampling-Swift.git", .exact("1.0.4")),
         .package(name: "Util", url: "https://github.com/StarlangSoftware/Util-Swift.git", .exact("1.0.4"))
     ],

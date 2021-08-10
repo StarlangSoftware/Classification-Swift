@@ -11,6 +11,7 @@ import Math
 public class MultiLayerPerceptronModel : LinearPerceptronModel{
     
     private var V: Matrix = Matrix(size: 1)
+    private var activationFunction: ActivationFunction
     
     /**
      * The allocateWeights method allocates layers' weights of Matrix W and V.
@@ -33,10 +34,12 @@ public class MultiLayerPerceptronModel : LinearPerceptronModel{
         - parameters:    Multi layer perceptron parameters; seed, learningRate, etaDecrease, crossValidationRatio, epoch, hiddenNodes.
      */
     public init(trainSet: InstanceList, validationSet: InstanceList, parameters: MultiLayerPerceptronParameter){
+        activationFunction = parameters.getActivationFunction()
         super.init(trainSet: trainSet)
         allocateWeights(H: parameters.getHiddenNodes())
         var bestW : Matrix = W.copy() as! Matrix
         var bestV : Matrix = V.copy() as! Matrix
+        var activationDerivative : Vector
         var bestClassificationPerformance : ClassificationPerformance = ClassificationPerformance(accuracy: 0.0)
         let epoch = parameters.getEpoch()
         var learningRate : Double = parameters.getLearningRate()
@@ -44,14 +47,25 @@ public class MultiLayerPerceptronModel : LinearPerceptronModel{
             trainSet.shuffle()
             for j in 0..<trainSet.size() {
                 createInputVector(instance: trainSet.get(index: j))
-                let hidden = calculateHidden(input: x, weights: W)
+                let hidden = calculateHidden(input: x, weights: W, activationFunction: activationFunction)
                 let hiddenBiased = hidden.biased()
                 let rMinusY = calculateRMinusY(instance: trainSet.get(index: j), input: hiddenBiased, weights: V)
                 let deltaV = rMinusY.multiply(v: hiddenBiased)
-                let oneMinusHidden = calculateOneMinusHidden(hidden: hidden)
                 let tmph = V.multiplyWithVectorFromLeft(v: rMinusY)
                 tmph.remove(pos: 0);
-                let tmpHidden = oneMinusHidden.elementProduct(v: hidden.elementProduct(v: tmph))
+                switch activationFunction {
+                    case .SIGMOID:
+                        let oneMinusHidden = calculateOneMinusHidden(hidden: hidden)
+                        activationDerivative = oneMinusHidden.elementProduct(v: hidden)
+                    case .TANH:
+                        let one = Vector(size: hidden.size(), x: 1.0)
+                        hidden.tanh()
+                        activationDerivative = one.difference(v: hidden.elementProduct(v: hidden))
+                    case .RELU:
+                        hidden.reluDerivative()
+                        activationDerivative = hidden
+                }
+                let tmpHidden = tmph.elementProduct(v: activationDerivative)
                 let deltaW = tmpHidden.multiply(v: x)
                 deltaV.multiplyWithConstant(constant: learningRate)
                 V.add(m: deltaV)
@@ -74,6 +88,6 @@ public class MultiLayerPerceptronModel : LinearPerceptronModel{
      * The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.
      */
     public override func calculateOutput() {
-        calculateForwardSingleHiddenLayer(W: W, V: V)
+        calculateForwardSingleHiddenLayer(W: W, V: V, activationFunction: activationFunction)
     }
 }

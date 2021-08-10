@@ -12,6 +12,7 @@ public class DeepNetworkModel : NeuralNetworkModel{
     
     private var weights: [Matrix] = []
     private var hiddenLayerSize: Int = 0
+    private var activationFunction: ActivationFunction
     
     /**
      * The allocateWeights method takes {@link DeepNetworkParameter}s as an input. First it adds random weights to the {@link ArrayList}
@@ -58,9 +59,11 @@ public class DeepNetworkModel : NeuralNetworkModel{
         - parameters:    {@link DeepNetworkParameter} input.
      */
     public init(trainSet: InstanceList, validationSet: InstanceList, parameters: DeepNetworkParameter){
+        activationFunction = parameters.getActivationFunction()
         super.init(trainSet: trainSet)
         var deltaWeights : [Matrix] = []
         var hidden : [Vector] = []
+        var tmph, oneMinusHidden, activationDerivative, tmpHidden: Vector
         var hiddenBiased : [Vector] = []
         allocateWeights(parameters: parameters)
         var bestWeights : [Matrix] = setBestWeights()
@@ -68,6 +71,7 @@ public class DeepNetworkModel : NeuralNetworkModel{
         let epoch = parameters.getEpoch()
         var learningRate : Double = parameters.getLearningRate()
         var k: Int
+        tmpHidden = Vector(size: 0, x: 0.0)
         for _ in 0..<epoch {
             trainSet.shuffle()
             for j in 0..<trainSet.size() {
@@ -77,9 +81,9 @@ public class DeepNetworkModel : NeuralNetworkModel{
                 deltaWeights.removeAll()
                 for k in 0..<hiddenLayerSize {
                     if k == 0 {
-                        hidden.append(calculateHidden(input: x, weights: weights[k]))
+                        hidden.append(calculateHidden(input: x, weights: weights[k], activationFunction: activationFunction))
                     } else {
-                        hidden.append(calculateHidden(input: hiddenBiased[k - 1], weights: weights[k]))
+                        hidden.append(calculateHidden(input: hiddenBiased[k - 1], weights: weights[k], activationFunction: activationFunction))
                     }
                     hiddenBiased.append(hidden[k].biased())
                 }
@@ -87,10 +91,25 @@ public class DeepNetworkModel : NeuralNetworkModel{
                 deltaWeights.insert(rMinusY.multiply(v: hiddenBiased[hiddenLayerSize - 1]), at: 0)
                 k = weights.count - 2
                 while k >= 0 {
-                    let oneMinusHidden = calculateOneMinusHidden(hidden: hidden[k])
-                    let tmph = deltaWeights[0].elementProduct(m: weights[k + 1]).sumOfRows()
+                    if k == weights.count - 2{
+                        tmph = weights[k + 1].multiplyWithVectorFromLeft(v: rMinusY)
+                    } else {
+                        tmph = weights[k + 1].multiplyWithVectorFromLeft(v: tmpHidden)
+                    }
                     tmph.remove(pos: 0)
-                    let tmpHidden = oneMinusHidden.elementProduct(v: tmph)
+                    switch activationFunction {
+                        case .SIGMOID:
+                            oneMinusHidden = calculateOneMinusHidden(hidden: hidden[k])
+                            activationDerivative = oneMinusHidden.elementProduct(v: hidden[k])
+                        case .TANH:
+                            let one = Vector(size: hidden.count, x: 1.0)
+                            hidden[k].tanh();
+                            activationDerivative = one.difference(v: hidden[k].elementProduct(v: hidden[k]))
+                        case .RELU:
+                            hidden[k].reluDerivative()
+                            activationDerivative = hidden[k]
+                    }
+                    tmpHidden = tmph.elementProduct(v: activationDerivative)
                     if k == 0 {
                         deltaWeights.insert(tmpHidden.multiply(v: x), at: 0)
                     } else {
@@ -125,9 +144,9 @@ public class DeepNetworkModel : NeuralNetworkModel{
         var hiddenBiased : Vector? = nil
         for i in 0..<weights.count - 1 {
             if i == 0 {
-                hidden = calculateHidden(input: x, weights: weights[i])
+                hidden = calculateHidden(input: x, weights: weights[i], activationFunction: activationFunction)
             } else {
-                hidden = calculateHidden(input: hiddenBiased!, weights: weights[i])
+                hidden = calculateHidden(input: hiddenBiased!, weights: weights[i], activationFunction: activationFunction)
             }
             hiddenBiased = hidden.biased()
         }
