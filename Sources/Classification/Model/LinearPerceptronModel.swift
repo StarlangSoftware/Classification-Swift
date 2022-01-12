@@ -7,6 +7,7 @@
 
 import Foundation
 import Math
+import Util
 
 public class LinearPerceptronModel : NeuralNetworkModel{
     
@@ -32,7 +33,7 @@ public class LinearPerceptronModel : NeuralNetworkModel{
      */
     public init(trainSet: InstanceList, validationSet: InstanceList, parameters: LinearPerceptronParameter){
         super.init(trainSet: trainSet)
-        W = allocateLayerWeights(row: K, column: d + 1)
+        W = allocateLayerWeights(row: K, column: d + 1, random: Random(seed: parameters.getSeed()))
         var bestW : Matrix = W.copy() as! Matrix
         var bestClassificationPerformance : ClassificationPerformance = ClassificationPerformance(accuracy: 0.0);
         let epoch = parameters.getEpoch();

@@ -7,6 +7,7 @@
 
 import Foundation
 import Math
+import Util
 
 public class DeepNetworkModel : NeuralNetworkModel{
     
@@ -23,11 +24,11 @@ public class DeepNetworkModel : NeuralNetworkModel{
      */
     private func allocateWeights(parameters: DeepNetworkParameter){
         weights = []
-        weights.append(allocateLayerWeights(row: parameters.getHiddenNodes(layerIndex: 0), column: d + 1))
+        weights.append(allocateLayerWeights(row: parameters.getHiddenNodes(layerIndex: 0), column: d + 1, random: Random(seed: parameters.getSeed())))
         for i in 0..<parameters.layerSize() - 1 {
-            weights.append(allocateLayerWeights(row: parameters.getHiddenNodes(layerIndex: i + 1), column: parameters.getHiddenNodes(layerIndex: i) + 1))
+            weights.append(allocateLayerWeights(row: parameters.getHiddenNodes(layerIndex: i + 1), column: parameters.getHiddenNodes(layerIndex: i) + 1, random: Random(seed: parameters.getSeed())))
         }
-        weights.append(allocateLayerWeights(row: K, column: parameters.getHiddenNodes(layerIndex: parameters.layerSize() - 1) + 1))
+        weights.append(allocateLayerWeights(row: K, column: parameters.getHiddenNodes(layerIndex: parameters.layerSize() - 1) + 1, random: Random(seed: parameters.getSeed())))
         hiddenLayerSize = parameters.layerSize()
     }
     

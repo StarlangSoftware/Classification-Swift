@@ -7,6 +7,7 @@
 
 import Foundation
 import Math
+import Util
 
 public class MultiLayerPerceptronModel : LinearPerceptronModel{
     
@@ -18,9 +19,9 @@ public class MultiLayerPerceptronModel : LinearPerceptronModel{
      - Parameters:
         - H: Integer value for weights.
      */
-    private func allocateWeights(H: Int){
-        W = allocateLayerWeights(row: H, column: d + 1)
-        V = allocateLayerWeights(row: K, column: H + 1)
+    private func allocateWeights(H: Int, random: Random){
+        W = allocateLayerWeights(row: H, column: d + 1, random: random)
+        V = allocateLayerWeights(row: K, column: H + 1, random: random)
     }
     
     /**
@@ -36,7 +37,7 @@ public class MultiLayerPerceptronModel : LinearPerceptronModel{
     public init(trainSet: InstanceList, validationSet: InstanceList, parameters: MultiLayerPerceptronParameter){
         activationFunction = parameters.getActivationFunction()
         super.init(trainSet: trainSet)
-        allocateWeights(H: parameters.getHiddenNodes())
+        allocateWeights(H: parameters.getHiddenNodes(), random: Random(seed: parameters.getSeed()))
         var bestW : Matrix = W.copy() as! Matrix
         var bestV : Matrix = V.copy() as! Matrix
         var activationDerivative : Vector

@@ -7,6 +7,7 @@
 
 import Foundation
 import Math
+import Util
 
 public class NeuralNetworkModel : ValidatedModel{
     
@@ -38,8 +39,8 @@ public class NeuralNetworkModel : ValidatedModel{
         - column: Number of columns.
      - Returns: Matrix with random weights.
      */
-    public func allocateLayerWeights(row: Int, column: Int) -> Matrix{
-        return Matrix(row: row, col: column, min: -0.01, max: +0.01)
+    public func allocateLayerWeights(row: Int, column: Int, random: Random) -> Matrix{
+        return Matrix(row: row, col: column, min: -0.01, max: +0.01, random: random)
     }
     
     /**

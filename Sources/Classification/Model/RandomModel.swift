@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import Util
 
 public class RandomModel : Model{
     
     private var classLabels: [String]
+    private var random: Random
     
     /**
      * A constructor that sets the class labels.
@@ -19,6 +21,7 @@ public class RandomModel : Model{
      */
     public init(classLabels: [String], seed: Int){
         self.classLabels = classLabels
+        self.random = Random(seed: seed)
     }
     
     /**
@@ -32,11 +35,11 @@ public class RandomModel : Model{
         if instance is CompositeInstance {
             let possibleClassLabels : [String] = (instance as! CompositeInstance).getPossibleClassLabels()
             let size = possibleClassLabels.count
-            let index = Int.random(in: 0...size)
+            let index = random.nextInt(maxRange: size)
             return possibleClassLabels[index]
         } else {
             let size = classLabels.count
-            let index = Int.random(in: 0...size)
+            let index = random.nextInt(maxRange: size)
             return classLabels[index]
         }
     }
