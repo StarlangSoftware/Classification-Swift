@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class BinaryAttribute : DiscreteAttribute{
+open class BinaryAttribute : DiscreteAttribute{
     
     /**
      * Constructor for a binary discrete attribute. The attribute can take only two values "True" or "False".

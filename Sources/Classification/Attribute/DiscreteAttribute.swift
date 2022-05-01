@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DiscreteAttribute : Attribute{
+open class DiscreteAttribute : Attribute{
     
     public var value: String = "NULL"
     

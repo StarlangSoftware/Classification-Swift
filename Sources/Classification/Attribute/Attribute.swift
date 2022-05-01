@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Attribute {
+open class Attribute {
     
     public func continuousAttributeSize() -> Int{
         return 0
