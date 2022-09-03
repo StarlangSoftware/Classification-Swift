@@ -7,6 +7,7 @@
 
 import Foundation
 import Math
+import Util
 
 public class DecisionNode {
     
@@ -33,14 +34,15 @@ public class DecisionNode {
         if isStump && condition != nil {
             return
         }
-        var indexList : [Int] = []
-        for i in 0..<data.get(index: 0).attributeSize() {
-            indexList.append(i)
-        }
+        var indexList : [Int]
         if parameter != nil && parameter!.getAttributeSubsetSize() < data.get(index: 0).attributeSize() {
-            indexList.shuffle()
+            indexList = RandomArray.indexArray(itemCount: data.get(index: 0).attributeSize())
             size = parameter!.getAttributeSubsetSize()
         } else {
+            indexList = []
+            for i in 0..<data.get(index: 0).attributeSize() {
+                indexList.append(i)
+            }
             size = data.get(index: 0).attributeSize()
         }
         let classDistribution = data.classDistribution()

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Util
 
 public class Partition {
     
@@ -44,11 +45,7 @@ public class Partition {
         if stratified {
             let distribution = instanceList.classDistribution()
             var counts = [Int](repeating: 0, count: distribution.size())
-            var randomArray : [Int] = []
-            for i in 0..<instanceList.size() {
-                randomArray.append(i)
-            }
-            randomArray.shuffle()
+            let randomArray : [Int] = RandomArray.indexArray(itemCount: instanceList.size())
             for i in 0..<instanceList.size() {
                 let instance = instanceList.get(index: randomArray[i])
                 let classIndex = distribution.getIndex(item: instance.getClassLabel())
