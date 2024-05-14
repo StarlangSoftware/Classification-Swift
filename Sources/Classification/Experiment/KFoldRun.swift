@@ -21,6 +21,13 @@ public class KFoldRun : MultipleRun{
         self.K = K
     }
     
+    /// Runs a K fold cross-validated experiment for the given classifier with the given parameters. The experiment
+    /// results will be added to the experimentPerformance.
+    /// - Parameters:
+    ///   - classifier: Classifier for the experiment
+    ///   - parameter: Hyperparameters of the classifier of the experiment
+    ///   - experimentPerformance: Storage to add experiment results
+    ///   - crossValidation: K-fold crossvalidated dataset.
     public func runExperiment(classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance, crossValidation: CrossValidation<Instance>){
         for i in 0..<K {
             let trainSet = InstanceList(list: crossValidation.getTrainFold(k: i))

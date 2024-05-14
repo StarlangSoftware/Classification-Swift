@@ -42,6 +42,8 @@ public class DiscreteToContinuous : LaryFilter{
         removeDiscreteAttributes(instance: instance, size: size)
     }
     
+    /// Converts the data definition with discrete attributes, to data definition with continuous attributes. Basically,
+    /// for each discrete attribute with L possible values, L more continuous attributes will be added.
     public override func convertDataDefinition(){
         let dataDefinition = dataSet.getDataDefinition()
         let size = dataDefinition.attributeCount()

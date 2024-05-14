@@ -24,6 +24,8 @@ public class FeatureFilter{
         self.dataSet = dataSet
     }
     
+    /// Feature converter for a list of instances. Using the abstract method convertInstance, each instance in the
+    /// instance list will be converted.
     public func convert(){
         let instances : [Instance] = dataSet.getInstances()
         for instance in instances{

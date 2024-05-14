@@ -20,6 +20,9 @@ public class StratifiedMxKFoldRun : MxKFoldRun{
         super.init(M: M, K: K)
     }
     
+    /// Execute the Stratified MxK-fold cross-validation with the given classifier on the given data set using the given parameters.
+    /// - Parameter experiment: Experiment to be run.
+    /// - Returns: An ExperimentPerformance instance.
     public override func execute(experiment: Experiment) -> ExperimentPerformance {
         let result = ExperimentPerformance()
         for _ in 0..<M {

@@ -44,6 +44,9 @@ public class RandomModel : Model{
         }
     }
     
+    /// Calculates the posterior probability distribution for the given instance according to random model.
+    /// - Parameter instance: Instance for which posterior probability distribution is calculated.
+    /// - Returns: Posterior probability distribution for the given instance.
     public override func predictProbability(instance: Instance) -> [String : Double] {
         var result : [String : Double] = [:]
         for classLabel in classLabels{

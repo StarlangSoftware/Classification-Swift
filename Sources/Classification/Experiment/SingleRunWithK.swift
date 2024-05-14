@@ -21,6 +21,13 @@ public class SingleRunWithK : SingleRun{
         self.K = K
     }
     
+    /// Runs first fold of a K fold cross-validated experiment for the given classifier with the given parameters.
+    /// The experiment result will be returned.
+    /// - Parameters:
+    ///   - classifier: Classifier for the experiment
+    ///   - parameter: Hyperparameters of the classifier of the experiment
+    ///   - crossValidation: K-fold crossvalidated dataset.
+    /// - Returns: The experiment result of the first fold of the K-fold cross-validated experiment.
     public func runExperiment(classifier: Classifier, parameter: Parameter, crossValidation: CrossValidation<Instance>) -> Performance{
         let trainSet = InstanceList(list: crossValidation.getTrainFold(k: 0))
         let testSet = InstanceList(list: crossValidation.getTestFold(k: 0))

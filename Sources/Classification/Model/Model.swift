@@ -24,6 +24,9 @@ public class Model{
         return [:]
     }
     
+    /// Given an array of class labels, returns the maximum occurred one.
+    /// - Parameter classLabels: An array of class labels.
+    /// - Returns: The class label that occurs most in the array of class labels (mod of class label list).
     public static func getMaximum(classLabels: [String]) -> String{
         let frequencies : CounterHashMap<String> = CounterHashMap()
         for label in classLabels{

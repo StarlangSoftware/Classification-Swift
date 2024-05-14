@@ -9,6 +9,9 @@ import Foundation
 
 public class Sign : PairedTest{
     
+    /// Calculates n!.
+    /// - Parameter n: n in n!
+    /// - Returns: n!.
     private func factorial(n: Int) -> Int{
         var result : Int = 1
         for i in 2...n{
@@ -17,6 +20,11 @@ public class Sign : PairedTest{
         return result
     }
     
+    /// Calculates m of n that is C(n, m)
+    /// - Parameters:
+    ///   - m: m in C(m, n)
+    ///   - n: n in C(m, n)
+    /// - Returns: C(m, n)
     private func binomial(m: Int, n: Int) -> Int{
         if n == 0 || m == n{
             return 1
@@ -25,6 +33,11 @@ public class Sign : PairedTest{
         }
     }
     
+    /// Compares two classification algorithms based on their performances (accuracy or error rate) using sign test.
+    /// - Parameters:
+    ///   - classifier1: Performance (error rate or accuracy) results of the first classifier.
+    ///   - classifier2: Performance (error rate or accuracy) results of the second classifier.
+    /// - Returns: Statistical test result of the comparison.
     public override func compare(classifier1: ExperimentPerformance, classifier2: ExperimentPerformance) -> StatisticalTestResult {
         var plus : Int = 0
         var minus : Int = 0

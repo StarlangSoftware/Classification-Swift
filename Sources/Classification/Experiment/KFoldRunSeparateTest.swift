@@ -19,6 +19,14 @@ public class KFoldRunSeparateTest : KFoldRun{
         super.init(K: K)
     }
     
+    /// Runs a K fold cross-validated experiment for the given classifier with the given parameters. Testing will be
+    /// done on the separate test set. The experiment results will be added to the experimentPerformance.
+    /// - Parameters:
+    ///   - classifier: Classifier for the experiment
+    ///   - parameter: Hyperparameters of the classifier of the experiment
+    ///   - experimentPerformance: Storage to add experiment results
+    ///   - crossValidation: K-fold crossvalidated dataset.
+    ///   - testSet: Test set on which experiment performance is calculated.
     public func runExperiment(classifier: Classifier, parameter: Parameter, experimentPerformance: ExperimentPerformance, crossValidation: CrossValidation<Instance>, testSet: InstanceList) {
         for i in 0..<K {
             let trainSet = InstanceList(list: crossValidation.getTrainFold(k: i))

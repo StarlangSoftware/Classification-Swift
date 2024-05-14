@@ -72,6 +72,9 @@ public class KnnModel : Model{
         return predictedClass
     }
     
+    /// Calculates the posterior probability distribution for the given instance according to K-means model.
+    /// - Parameter instance: Instance for which posterior probability distribution is calculated.
+    /// - Returns: Posterior probability distribution for the given instance.
     public override func predictProbability(instance: Instance) -> [String : Double] {
         let neighbors = nearestNeighbors(instance: instance)
         return neighbors.classDistribution().getProbabilityDistribution()
